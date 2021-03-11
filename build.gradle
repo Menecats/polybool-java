@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'org.example'
+group 'com.menecats'
 version '1.0.0'
 
 repositories {
@@ -27,6 +27,10 @@ publishing {
 
     publications {
         polybool(MavenPublication) {
+            version = version
+            groupId = group
+            artifactId = 'polybool-java'
+
             from components.java
         }
     }
