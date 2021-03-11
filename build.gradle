@@ -1,16 +1,31 @@
+import java.nio.charset.StandardCharsets
+
 plugins {
     id 'java'
+    id 'java-library'
     id 'maven-publish'
 }
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+javadoc.options.encoding = StandardCharsets.UTF_8
+compileJava.options.encoding = StandardCharsets.UTF_8
+compileTestJava.options.encoding = StandardCharsets.UTF_8
+
 group 'com.menecats'
-version '1.0.0'
+version '1.0.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+}
+
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
 }
 
 publishing {
@@ -29,9 +44,10 @@ publishing {
         polybool(MavenPublication) {
             version = version
             groupId = group
-            artifactId = 'polybool-java'
+            artifactId = rootProject.name
 
             from components.java
+            artifact tasks.sourceJar
         }
     }
 }
