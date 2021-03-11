@@ -24,7 +24,7 @@ public final class PolyBoolHelper {
 
     public static Epsilon epsilon(double epsilon, boolean experimental) {
         return experimental
-                ? new ExperimentalEpsilon()
+                ? new ExperimentalEpsilon(epsilon)
                 : new Epsilon(epsilon);
     }
 
@@ -43,7 +43,7 @@ public final class PolyBoolHelper {
 
     @SafeVarargs
     public static Polygon polygon(boolean inverted, List<double[]>... regions) {
-        return new Polygon(Arrays.asList(regions));
+        return new Polygon(Arrays.asList(regions), inverted);
     }
 
     private PolyBoolHelper() {
