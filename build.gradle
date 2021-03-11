@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'publishing'
+    id 'maven-publish'
 }
 
 group 'org.example'
@@ -22,6 +22,12 @@ publishing {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
+        }
+    }
+
+    publications {
+        polybool(MavenPublication) {
+            from components.java
         }
     }
 }
