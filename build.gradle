@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -23,9 +24,23 @@ repositories {
 dependencies {
 }
 
-task sourceJar(type: Jar) {
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+task sourcesJar(type: Jar) {
     classifier 'sources'
     from sourceSets.main.allJava
+}
+
+task packageJavadoc(type: Jar) {
+    classifier 'javadoc'
+    from javadoc
 }
 
 publishing {
@@ -38,6 +53,14 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+        maven {
+            name = "Sonatype"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username = System.getenv("SONATYPE_USERNAME")
+                password = System.getenv("SONATYPE_PASSWORD")
+            }
+        }
     }
 
     publications {
@@ -47,7 +70,36 @@ publishing {
             artifactId = rootProject.name
 
             from components.java
-            artifact tasks.sourceJar
+            artifact sourcesJar
+            artifact packageJavadoc
+
+            pom {
+                name = 'Polybool Java'
+                description = 'Boolean operations on polygons (union, intersection, difference, xor).'
+                url = 'https://github.com/menecats/polybool-java'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'menecats'
+                        name = 'Davide Menegatti'
+                        email = 'd.menegatti@recrosoftware.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:https://github.com/Menecats/polybool-java.git'
+                    developerConnection = 'scm:git://github.com/Menecats/polybool-java.git'
+                    url = 'https://github.com/menecats/polybool-java'
+                }
+            }
         }
+    }
+
+    signing {
+        sign publishing.publications.polybool
     }
 }
