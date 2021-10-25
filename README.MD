@@ -16,7 +16,24 @@ Boolean operations on polygons (union, intersection, difference, xor).
 
 # Installing
 
-TODO: Complete this section once published to 'central'.
+To use polybool-java, you need to use the following Maven dependency:
+
+```xml
+<!-- Maven -->
+<dependency>
+    <groupId>com.menecats</groupId>
+    <artifactId>polybool-java</artifactId>
+    <version>1.0.1</version>
+</dependency>
+```
+
+```groovy
+// Gradle (Groovy)
+implementation 'com.menecats:polybool-java:1.0.1'
+```
+
+or download jars from Maven repository (or via quick links on
+the [Release page](https://github.com/Menecats/polybool-java/releases))
 
 # Example
 
@@ -75,13 +92,13 @@ public class PolyBoolExample {
 ## Basic Usage
 
 ```java
-Epsilon eps = new Epsilon();
+Epsilon eps=new Epsilon();
 
-Polygon poly = PolyBool.union(eps, poly1, poly2);
-Polygon poly = PolyBool.intersect(eps, poly1, poly2);
-Polygon poly = PolyBool.difference(eps, poly1, poly2); // poly1 - poly2
-Polygon poly = PolyBool.differenceRev(eps, poly1, poly2); // poly2 - poly1
-Polygon poly = PolyBool.xor(eps, poly1, poly2);
+        Polygon poly=PolyBool.union(eps,poly1,poly2);
+        Polygon poly=PolyBool.intersect(eps,poly1,poly2);
+        Polygon poly=PolyBool.difference(eps,poly1,poly2); // poly1 - poly2
+        Polygon poly=PolyBool.differenceRev(eps,poly1,poly2); // poly2 - poly1
+        Polygon poly=PolyBool.xor(eps,poly1,poly2);
 ```  
 
 Where `poly1`, `poly2`, and the return value are `Polygon` objects.
@@ -108,18 +125,18 @@ Only `"Polygon"` and `"MultiPolygon"` types are supported.
 # Core API
 
 ```java
-Epsilon eps = new Epsilon();
+Epsilon eps=new Epsilon();
 
-Segments segments = PolyBool.segments(eps, polygon);
-Combined combined = PolyBool.combine(eps, segments1, segments2);
+        Segments segments=PolyBool.segments(eps,polygon);
+        Combined combined=PolyBool.combine(eps,segments1,segments2);
 
-Segments segments = PolyBool.selectUnion(combined);
-Segments segments = PolyBool.selectIntersect(combined);
-Segments segments = PolyBool.selectDifference(combined);
-Segments segments = PolyBool.selectDifferenceRev(combined);
-Segments segments = PolyBool.selectXor(combined);
+        Segments segments=PolyBool.selectUnion(combined);
+        Segments segments=PolyBool.selectIntersect(combined);
+        Segments segments=PolyBool.selectDifference(combined);
+        Segments segments=PolyBool.selectDifferenceRev(combined);
+        Segments segments=PolyBool.selectXor(combined);
 
-Polygon polygon = PolyBool.polygon(eps, segments);  
+        Polygon polygon=PolyBool.polygon(eps,segments);  
 ```    
 
 Depending on your needs, it might be more efficient to construct your own sequence of operations  
@@ -167,13 +184,13 @@ Instead, it's more efficient to use the core API directly, like this:
 
 ```java
 // works AND efficient  
-Segments segments = PolyBool.segments(eps, polygons[0]);
-for (int i = 1; i < polygons.length; i++) {
-    Segments seg2 = PolyBool.segments(eps, polygons[i]);
-    Combined comb = PolyBool.combine(eps, segments, seg2);
-    segments = PolyBool.selectUnion(comb);
-}
-return PolyBool.polygon(eps, segments);  
+Segments segments=PolyBool.segments(eps,polygons[0]);
+        for(int i=1;i<polygons.length;i++){
+        Segments seg2=PolyBool.segments(eps,polygons[i]);
+        Combined comb=PolyBool.combine(eps,segments,seg2);
+        segments=PolyBool.selectUnion(comb);
+        }
+        return PolyBool.polygon(eps,segments);  
 ```  
 
 ## Advanced Example 2
@@ -223,14 +240,14 @@ be:
 ```java
 // union the polygon with nothing in order to clean up the data  
 // works but not efficient  
-Polygon cleaned = PolyBool.union(eps, polygon, new Polygon());  
+Polygon cleaned=PolyBool.union(eps,polygon,new Polygon());  
 ```  
 
 Instead, skip the combination and selection phase:
 
 ```java
 // works AND efficient  
-Polygon cleaned = PolyBool.polygon(eps, PolyBool.segments(eps, polygon));
+Polygon cleaned=PolyBool.polygon(eps,PolyBool.segments(eps,polygon));
 ```  
 
 # Epsilon
@@ -242,39 +259,39 @@ exactly the same.
 Normally you would expect this to work:
 
 ```java
-if (A == B) {
-    /* A and B are equal */;
-} else{
-    /* A and B are not equal */;
-}
+if(A==B){
+        /* A and B are equal */;
+        }else{
+        /* A and B are not equal */;
+        }
 ```  
 
 But for inexact floating point math, instead we use:
 
 ```java
-if (Math.abs(A - B) < epsilon) {
-    /* A and B are equal */;
-} else {
-    /* A and B are not equal */;
-}
+if(Math.abs(A-B)<epsilon){
+        /* A and B are equal */;
+        }else{
+        /* A and B are not equal */;
+        }
 ```  
 
 You can set the epsilon while you invoke polybool functions by creating an `Epsilon` instance
 
 ```java
-Epsilon eps = new Epsilon();
+Epsilon eps=new Epsilon();
 
-PolyBool.segments(eps, poly);
+        PolyBool.segments(eps,poly);
 ```
 
 You can specify a custom epsilon value while you instantiate an `Epsilon` object or you can change it on an existing one
 
 ```java
-Epsilon eps = new Epsilon(myCustomEpsilonValue);
+Epsilon eps=new Epsilon(myCustomEpsilonValue);
 
-eps.epsilon(anotherCustomEpsilonValue);
+        eps.epsilon(anotherCustomEpsilonValue);
 
-PolyBool.segments(eps, poly);
+        PolyBool.segments(eps,poly);
 ```
 
 The default epsilon value is `0.0000000001 (1e-10)`.
