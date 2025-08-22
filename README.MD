@@ -2,6 +2,8 @@
 
 Java port of [https://github.com/velipso/polybooljs](https://github.com/velipso/polybooljs).
 
+⚠️ **Note**: The original project is now maintained at [https://github.com/velipso/polybool](https://github.com/velipso/polybool).  
+
 Boolean operations on polygons (union, intersection, difference, xor).
 
 # Features
@@ -13,6 +15,21 @@ Boolean operations on polygons (union, intersection, difference, xor).
 4. Uses formulas that take floating point irregularities into account (via configurable epsilon)
 5. Provides an API for constructing efficient sequences of operations
 6. Support for GeoJSON `"Polygon"` and `"MultiPolygon"` types (experimental)
+
+# Ports
+
+Below is a list of known ports of PolyBool into different programming languages and environments.  
+If you are looking for the most up-to-date list, please always refer to the main project.
+
+- [🧭 Typescript (current/original implementation) by @velipso](https://github.com/velipso/polybool)
+- [🧭 Javascript (legacy/original implementation) by @velipso](https://github.com/velipso/polybooljs)
+- [Flutter/Dart port by @mohammedX6](https://github.com/mohammedX6/poly_bool_dart)
+- [Java port by @the3deers](https://github.com/the3deers/polybool-java)
+- [Kotlin port by @StefanOltmann](https://github.com/StefanOltmann/polybool-kotlin)
+- [.NET port by @idormenco](https://github.com/idormenco/PolyBool.Net)
+- [Python port by @KaivnD](https://github.com/KaivnD/pypolybool)
+- [Roblox (Luau/Typescript) port by @codyduong](https://github.com/codyduong/rbxts-polybool)
+- ⚠️ This list may not always be up-to-date. For the latest maintained list, please check the [main project’s README](https://github.com/velipso/polybool/blob/main/README.md#ports).
 
 # Installing
 
